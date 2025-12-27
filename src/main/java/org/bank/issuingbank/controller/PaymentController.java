@@ -1,5 +1,7 @@
 package org.bank.issuingbank.controller;
 
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
 import org.bank.issuingbank.dto.request.PaymentRequest;
 import org.bank.issuingbank.dto.response.PaymentResponse;
 import org.bank.issuingbank.service.PaymentService;
@@ -22,7 +24,7 @@ public class PaymentController {
      */
     @PostMapping
     public ResponseEntity<PaymentResponse> processPayment(
-            @RequestBody PaymentRequest request
+            @Valid @RequestBody PaymentRequest request
     ) {
         PaymentResponse response = paymentService.processPayment(request);
         return ResponseEntity.status(HttpStatus.OK).body(response);
@@ -33,7 +35,7 @@ public class PaymentController {
      */
     @GetMapping("/{transactionId}")
     public ResponseEntity<PaymentResponse> getPaymentById(
-            @PathVariable String transactionId
+            @PathVariable @NotBlank(message = "Transaction ID is required") String transactionId
     ) {
         PaymentResponse response = paymentService.getPaymentById(transactionId);
         return ResponseEntity.ok(response);
