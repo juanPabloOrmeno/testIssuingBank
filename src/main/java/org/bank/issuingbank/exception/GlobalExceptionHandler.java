@@ -47,11 +47,11 @@ public class GlobalExceptionHandler {
         ErrorResponse errorResponse = new ErrorResponse(
                 "VALIDATION_ERROR",
                 message,
-                HttpStatus.UNPROCESSABLE_ENTITY.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 request.getDescription(false).replace("uri=", "")
         );
         
-        return new ResponseEntity<>(errorResponse, HttpStatus.UNPROCESSABLE_ENTITY);
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     /**
