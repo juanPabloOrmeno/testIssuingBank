@@ -1,4 +1,5 @@
 package org.bank.issuingbank.service.external.dto;
 
-public class IssuerResponse {
+public record IssuerResponse(boolean approved, String responseCode) {
+
 }
