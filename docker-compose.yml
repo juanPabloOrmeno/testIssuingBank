@@ -1,0 +1,30 @@
+services:
+  issuingbank:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: issuingbank-app
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_APPLICATION_NAME=issuingBank
+      - SPRING_DATASOURCE_URL=jdbc:h2:mem:testdb
+      - SPRING_DATASOURCE_DRIVERCLASSNAME=org.h2.Driver
+      - SPRING_DATASOURCE_USERNAME=sa
+      - SPRING_DATASOURCE_PASSWORD=
+      - SPRING_H2_CONSOLE_ENABLED=true
+      - SPRING_JPA_DATABASE_PLATFORM=org.hibernate.dialect.H2Dialect
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    networks:
+      - issuingbank-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+networks:
+  issuingbank-network:
+    driver: bridge
