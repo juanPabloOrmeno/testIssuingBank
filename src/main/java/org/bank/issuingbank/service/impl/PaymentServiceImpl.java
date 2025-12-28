@@ -29,19 +29,17 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentResponse processPayment(PaymentRequest request) {
 
-        validateRequest(request);
-
         Transaction transaction = new Transaction();
-        transaction.setMerchantId(request.getMerchantId());
-        transaction.setAmount(request.getAmount());
-        transaction.setCurrency(request.getCurrency());
+        transaction.setMerchantId(request.merchantId());
+        transaction.setAmount(request.amount());
+        transaction.setCurrency(request.currency());
         transaction.setStatus(TransactionStatus.PENDING);
         transaction.setCreatedAt(LocalDateTime.now());
 
         var issuerResponse = issuerClient.authorize(
-                request.getCardToken(),
-                request.getAmount(),
-                request.getCurrency()
+                request.cardToken(),
+                request.amount(),
+                request.currency()
         );
 
         if (issuerResponse.approved()) {
@@ -72,17 +70,5 @@ public class PaymentServiceImpl implements PaymentService {
                 transaction.getResponseCode(),
                 transaction.getCreatedAt()
         );
-    }
-
-    private void validateRequest(PaymentRequest request) {
-        if (request.getAmount() <= 0) {
-            throw new BusinessException("Amount must be greater than zero");
-        }
-        if (request.getMerchantId() == null || request.getMerchantId().isBlank()) {
-            throw new BusinessException("Merchant ID is required");
-        }
-        if (request.getCardToken() == null || request.getCardToken().isBlank()) {
-            throw new BusinessException("Card token is required");
-        }
     }
 }
