@@ -23,7 +23,7 @@ Este sistema simula el rol de un banco emisor en una infraestructura de pagos:
 
 | Tecnología | Versión | Propósito |
 |-----------|---------|-----------|
-| **Java** | 17+ (compatible con Java 25) | Lenguaje principal |
+| **Java** | 25 (compatible con Java 25) | Lenguaje principal |
 | **Spring Boot** | 4.0.1 | Framework principal |
 | **Spring Web** | 4.0.1 | API REST |
 | **Spring Data JPA** | 4.0.1 | Persistencia de datos |
